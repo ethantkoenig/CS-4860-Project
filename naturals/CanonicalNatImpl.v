@@ -21,6 +21,7 @@ Module CanonicalNaturalImpl <: NaturalInterface.
     end.
 End CanonicalNaturalImpl.
 
+
 Lemma comp_eq : forall n n', CanonicalNaturalImpl.comp n n' = Eq <-> n = n'.
   intros n.
   induction n.

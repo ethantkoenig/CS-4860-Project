@@ -1,3 +1,4 @@
+Require Import Naturals.NatIntf Naturals.CanonicalNatImpl.
 Require Import Cpdt.CpdtTactics.
 Require Import Arith BinNums BinNatDef.
 
@@ -279,11 +280,12 @@ Lemma sub_commutes : forall n n',
 Defined.
 
 Lemma pos_comp_eq : forall p p', 
-        BinPos.Pos.compare p p' = Eq -> BinPos.Pos.to_nat p = BinPos.Pos.to_nat p'.
-  intros p p'.
+        BinPos.Pos.compare p p' = Eq -> BinPos.Pos.to_nat p = BinPos.Pos.to_nat p'.  
+  intros p p'.   
   pose (BinPos.Pos.compare_eq_iff p p').
-  crush.               
+  crush.
 Defined.
+
 
 Lemma to_nat_pos : forall p, BinPos.Pos.to_nat p > 0.
   intros p.
@@ -298,6 +300,57 @@ Lemma to_nat_pos : forall p, BinPos.Pos.to_nat p > 0.
     (* xH *)
     auto.
 Defined.
+
+Lemma pos_to_nat_inj : forall p p',
+    BinPos.Pos.to_nat p = BinPos.Pos.to_nat p' -> p = p'.
+  intros p.
+  induction p.
+    (* xI *)
+    intros p'.
+    destruct p';
+        unfold BinPos.Pos.to_nat; simpl.
+      (* xI *)
+      rewrite (iter_op_mul p _).
+      rewrite (iter_op_mul p' _).
+      intros Heq.
+      assert (BinPos.Pos.to_nat p = BinPos.Pos.to_nat p') as Heq'.
+        unfold BinPos.Pos.to_nat.
+        crush.
+      rewrite (IHp p' Heq'); reflexivity.
+      (* xO *)
+      rewrite (iter_op_mul p _).
+      rewrite (iter_op_mul p' _).
+      crush.
+      (* xH *)
+      rewrite (iter_op_mul p _).
+      pose (H := to_nat_pos p).
+      unfold BinPos.Pos.to_nat in H.
+      crush.
+    (* xO *)
+      intros p'.
+      destruct p';
+          unfold BinPos.Pos.to_nat; simpl.
+      (* xI *)
+      rewrite (iter_op_mul p _).
+      rewrite (iter_op_mul p' _).
+      crush.
+      (* xO *)
+      rewrite (iter_op_mul p _).
+      rewrite (iter_op_mul p' _).
+      intros Heq.
+      assert (BinPos.Pos.to_nat p = BinPos.Pos.to_nat p') as Heq'.
+        unfold BinPos.Pos.to_nat.
+        crush.
+      rewrite (IHp p' Heq'); reflexivity.
+      (* xH *)
+      rewrite (iter_op_mul p _).
+      pose (H := to_nat_pos p).
+      unfold BinPos.Pos.to_nat in H.
+      crush.
+    (* xH *)
+    admit. (* TODO *)
+Defined.
+
 
 Lemma pos_comp_lt : forall p p',
         BinPos.Pos.compare p p' = Lt -> BinPos.Pos.to_nat p < BinPos.Pos.to_nat p'.
@@ -329,18 +382,13 @@ Require Import CanonicalNatImpl.
 
 Lemma duh2 : forall n, n > 0 -> exists n', n = S n'.
   intros n.
-  induction n as [| m].
+  remember n as n'.
+  induction n'.
     crush.
     intros useless; clear useless.
-    destruct m.
-      refine (ex_intro _ 0 _); congruence.
-      assert (S m > 0) as H.
-        crush.
-      destruct (IHm H) as [x H'].
-      refine (ex_intro _ (S x) _).
-      rewrite H'.
-      congruence.
+    refine (ex_intro _ n' _); reflexivity.
 Defined.
+
 
 Lemma comp_commutes : forall b b',
         N.compare b b' = CanonicalNaturalImpl.comp (N.to_nat b) (N.to_nat b').
@@ -385,4 +433,20 @@ Lemma comp_commutes : forall b b',
        crush.
 Defined.
        
-       
+Lemma to_nat_inj : forall n n', N.to_nat n = N.to_nat n' -> n = n'.
+  intros n.
+  destruct n.
+    intros n'.
+    destruct n'.
+      auto.
+      simpl.
+      pose (to_nat_pos p); crush.
+    intros n'.
+    destruct n'.
+      pose (to_nat_pos p); crush.
+
+      simpl.
+      intros Heq.
+      rewrite (pos_to_nat_inj p p0 Heq).
+      reflexivity.
+Defined.

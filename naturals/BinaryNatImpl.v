@@ -1,10 +1,10 @@
 Require Import Arith Bool List BinNums BinNatDef.
 Require Import Cpdt.CpdtTactics.
-Require Import BinNatLemmas NatIntf CanonicalNatImpl VerifiedNatIntf.
+Require Import BinNatLemmas NatIntf CanonicalNatImpl CommutingNatIntf.
 
 Import ListNotations.
 
-Module BinaryNaturalImpl <: VerifiedNaturalInterface.
+Module BinaryNaturalImpl <: CommutingNaturalInterface.
   Definition N := BinNums.N.
 
   Definition zero : N := N0.
@@ -16,6 +16,8 @@ Module BinaryNaturalImpl <: VerifiedNaturalInterface.
 
   Definition inject : N -> nat := N.to_nat.
 
+  Definition injective := BinNatLemmas.to_nat_inj.
+
   Lemma zero_commutes : inject zero = 0.
     auto.
   Defined.
@@ -26,7 +28,3 @@ Module BinaryNaturalImpl <: VerifiedNaturalInterface.
   Definition sub_commutes := BinNatLemmas.sub_commutes.
   Definition comp_commutes := BinNatLemmas.comp_commutes.
 End BinaryNaturalImpl.
-
-
-  
-
