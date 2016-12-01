@@ -4,10 +4,10 @@ Require Import Arith BinNums BinNatDef.
 
 Lemma iter_op_mul : forall p n nn,
     nn = n + n ->
-    BinPos.Pos.iter_op plus p nn = 
+    BinPos.Pos.iter_op plus p nn =
       (BinPos.Pos.iter_op plus p n) + (BinPos.Pos.iter_op plus p n).
   intros p.
-  induction p; 
+  induction p;
       intros n nn Heq; simpl.
     rewrite (IHp (n + n) (nn + nn)); crush. (* xI *)
     rewrite (IHp (n + n) (nn + nn)); crush. (* xO *)
@@ -61,8 +61,8 @@ Lemma pred_commutes : forall n, N.to_nat (N.pred n) = pred (N.to_nat n).
        auto.
 Defined.
 
-Lemma iter_op_add : 
-        forall p p' a, 
+Lemma iter_op_add :
+        forall p p' a,
         (BinPos.Pos.iter_op plus p a) + (BinPos.Pos.iter_op plus p' a)
           = BinPos.Pos.iter_op plus (BinPos.Pos.add p p') a.
   induction p.
@@ -75,7 +75,7 @@ Lemma iter_op_add :
       crush.
     (* xO *)
     intros p' a.
-    destruct p'; simpl; 
+    destruct p'; simpl;
       try rewrite <- (IHp p' (a + a)); crush.
     (* xH *)
     intros p' a.
@@ -97,8 +97,8 @@ Lemma pos_add_commutes : forall p p',
       | rewrite (iter_op_add p p' 2)
       | rewrite (BinPos.Pos.iter_op_succ _ plus plus_assoc _ 2) ];
       crush.
-    (* xO *)   
-    destruct p'; 
+    (* xO *)
+    destruct p';
       simpl; unfold BinPos.Pos.to_nat; simpl;
       try rewrite <- (iter_op_add p p' 2);
       crush.
@@ -108,7 +108,7 @@ Lemma pos_add_commutes : forall p p',
       crush.
 Defined.
 
-Lemma add_commutes : forall n n', 
+Lemma add_commutes : forall n n',
         N.to_nat (N.add n n') = (N.to_nat n) + (N.to_nat n').
   induction n; simpl; auto.
     (* Pos p *)
@@ -154,9 +154,9 @@ Lemma sub_commutes : forall n n',
         crush.
 Defined.
 
-Lemma pos_comp_eq : forall p p', 
-        BinPos.Pos.compare p p' = Eq -> BinPos.Pos.to_nat p = BinPos.Pos.to_nat p'.  
-  intros p p'.   
+Lemma pos_comp_eq : forall p p',
+        BinPos.Pos.compare p p' = Eq -> BinPos.Pos.to_nat p = BinPos.Pos.to_nat p'.
+  intros p p'.
   pose (BinPos.Pos.compare_eq_iff p p').
   crush.
 Defined.
@@ -188,7 +188,7 @@ Lemma pos_to_nat_inj : forall p p',
     rewrite (IHp p' Heq'); crush.
     (* xI xO *)
     crush.
-    (* xI xH *)    
+    (* xI xH *)
     pose (H := to_nat_pos p).
     unfold BinPos.Pos.to_nat in H; crush.
     (* xO xI *)
@@ -273,7 +273,7 @@ Lemma to_nat_inj : forall n n', N.to_nat n = N.to_nat n' -> n = n'.
     destruct n' as [|p']; auto.
       (* Zero, Pos p' *)
       pose (to_nat_pos p'); crush.
-      (* Pos p, Zero *)  
+      (* Pos p, Zero *)
       pose (to_nat_pos p); crush.
       (* Pos p, Pos p' *)
       intros Heq.

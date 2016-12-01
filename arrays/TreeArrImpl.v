@@ -14,7 +14,7 @@ Module TreeArrayImpl (Natl : VerifiedNaturalInterface) : CommutingArrayInterface
 
   Definition M := tree.
 
-  Definition make A (n:nat) (x:A) : tree A := 
+  Definition make A (n:nat) (x:A) : tree A :=
     Verified (T.make n x) (T.make_wf n x).
 
   Definition len A (t:tree A) : Natl.N :=
@@ -52,7 +52,7 @@ Module TreeArrayImpl (Natl : VerifiedNaturalInterface) : CommutingArrayInterface
 
   (** Commutativity lemmas **)
 
-  Lemma Tmake_add : forall A (t:T.tree A) (n:nat) (x:A), 
+  Lemma Tmake_add : forall A (t:T.tree A) (n:nat) (x:A),
       inject' t = Canon.make n x ->
         inject' (T.add x t) = Canon.make (S n) x.
     intros A t.
@@ -92,13 +92,13 @@ Module TreeArrayImpl (Natl : VerifiedNaturalInterface) : CommutingArrayInterface
       inject (make n x) = Canon.make n x.
     intros; simpl; apply Tmake_commutes.
   Defined.
-    
+
   Lemma Tlen_commutes : forall A (t:T.tree A),
       T.well_formed t -> T.len t = Canon.len (inject' t).
     intros A t.
     induction t as [|a| nl nr l IHl r IHr];
         simpl; intros Hwf.
-      (* Empty *) 
+      (* Empty *)
       symmetry; apply Canon.len_def.
       (* Leaf *)
       rewrite (Canon.len_def [a]); rewrite (Canon.len_def []); auto.

@@ -8,7 +8,7 @@ Set Implicit Arguments.
 Module TreeDefns (Natl : VerifiedNaturalInterface).
 
   Definition one := Natl.succ Natl.zero.
-  
+
   Inductive tree (A : Type) : Type :=
     | Empty : tree A
     | Leaf : A -> tree A
@@ -20,14 +20,14 @@ Module TreeDefns (Natl : VerifiedNaturalInterface).
     match t with
     | Empty => Leaf x
     | Leaf y => Node one one (Leaf x) (Leaf y)
-    | Node nl nr l r => 
+    | Node nl nr l r =>
         match Natl.comp nl nr with
         | Lt => Node (Natl.succ nl) nr (add x l) r
         | Eq
         | Gt => Node nl (Natl.succ nr) l (add x r)
         end
     end.
- 
+
   Fixpoint make A (m : nat) (x : A) : tree A :=
     match m with
     | O => Empty A
@@ -44,13 +44,13 @@ Module TreeDefns (Natl : VerifiedNaturalInterface).
   Fixpoint get A (t : tree A) (index : Natl.N) : option A :=
     match t, index with
     | Empty, _ => None
-    | Leaf x, _ => 
+    | Leaf x, _ =>
         match Natl.comp index Natl.zero with
         | Lt
         | Eq => Some x
         | Gt => None
         end
-    | Node nl nr l r, i => 
+    | Node nl nr l r, i =>
         match Natl.comp i nl with
         | Lt => get l i
         | Eq
@@ -61,7 +61,7 @@ Module TreeDefns (Natl : VerifiedNaturalInterface).
   Fixpoint set A (t : tree A) (index : Natl.N) (x : A) : tree A :=
     match t, index with
     | Empty, _ => Empty A
-    | Leaf y, _ => 
+    | Leaf y, _ =>
         match Natl.comp index Natl.zero with
         | Lt
         | Eq => Leaf x
@@ -158,7 +158,7 @@ Module TreeDefns (Natl : VerifiedNaturalInterface).
       intros Hwf.
       destruct Hwf as (Hcr & Hcl & Hwfl & Hwfr).
       destruct (Natl.comp i nl);
-          simpl;        
+          simpl;
           rewrite (set_count _ _ _).
         pose (IHr (Natl.sub i nl) x); auto.
         pose (IHl i x Hwfl); auto.

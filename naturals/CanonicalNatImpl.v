@@ -12,7 +12,7 @@ Module CanonicalNaturalImpl <: NaturalInterface.
   Definition add := plus.
   Definition sub := minus.
 
-  Fixpoint comp (n n' : nat) : comparison := 
+  Fixpoint comp (n n' : nat) : comparison :=
     match n, n' with
     | 0, S _ => Lt
     | 0, 0 => Eq
@@ -53,5 +53,5 @@ Lemma comp_gt : forall n n', CanonicalNaturalImpl.comp n n' = Gt <-> n > n'.
       crush.
       rewrite (IHn n').
       crush.
-Defined. 
+Defined.
 

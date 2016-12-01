@@ -13,14 +13,14 @@ Module Type VerifiedNaturalInterface <: NaturalInterface.
   Parameter inject : N -> nat.
 
   Axiom zero_commutes : inject zero = CanonicalNaturalImpl.zero.
-  Axiom succ_commutes : forall n : N, 
+  Axiom succ_commutes : forall n : N,
     inject (succ n) = CanonicalNaturalImpl.succ (inject n).
   Axiom pred_commutes : forall n : N,
     inject (pred n) = CanonicalNaturalImpl.pred (inject n).
   Axiom add_commutes : forall n n' : N,
-    inject (add n n') = CanonicalNaturalImpl.add (inject n) (inject n'). 
+    inject (add n n') = CanonicalNaturalImpl.add (inject n) (inject n').
   Axiom sub_commutes : forall n n' : N,
-    inject (sub n n') = CanonicalNaturalImpl.sub (inject n) (inject n'). 
+    inject (sub n n') = CanonicalNaturalImpl.sub (inject n) (inject n').
   Axiom comp_commutes : forall n n' : N,
     comp n n' = CanonicalNaturalImpl.comp (inject n) (inject n').
 
@@ -58,7 +58,7 @@ Module VerifiedCommutingNaturalImpl (C : CommutingNaturalInterface) : VerifiedNa
   Definition sub_commutes := C.sub_commutes.
   Definition comp_commutes := C.comp_commutes.
 
-  Lemma pos_succ : forall (n:N), 
+  Lemma pos_succ : forall (n:N),
       comp n C.zero = Gt -> exists n', n = succ n'.
     intros n.
     rewrite comp_commutes.
@@ -105,7 +105,7 @@ Module VerifiedCommutingNaturalImpl (C : CommutingNaturalInterface) : VerifiedNa
     simpl.
     reflexivity.
   Defined.
- 
+
   Lemma add_succ_right : forall (m n : N),
       add m (succ n) = add (succ m) n.
     intros m n.
@@ -163,7 +163,7 @@ Module VerifiedCommutingNaturalImpl (C : CommutingNaturalInterface) : VerifiedNa
     rewrite C.succ_commutes.
     auto.
   Defined.
- 
+
   Lemma comp_eq : forall (m n:N), comp m n = Eq <-> m = n.
     intros m n.
     refine (conj _ _).

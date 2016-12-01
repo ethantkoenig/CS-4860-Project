@@ -19,7 +19,7 @@ Module Type CanonicalArrayIntf (N : VerifiedNaturalInterface) <: ArrayInterface 
                  | O => []
                  | S n' => x::make n' x
                  end.
-  Axiom len_def : forall A (l:list A), 
+  Axiom len_def : forall A (l:list A),
       len l = match l with
               | [] => N.zero
               | _::t => N.succ (len t)
@@ -27,9 +27,9 @@ Module Type CanonicalArrayIntf (N : VerifiedNaturalInterface) <: ArrayInterface 
   Axiom get_def : forall A (l:list A) (n:N.N),
       get l n = match l with
                 | [] => None
-                | h::t => 
+                | h::t =>
                     match N.comp n N.zero with
-                    | Lt 
+                    | Lt
                     | Eq => Some h
                     | Gt => get t (N.pred n)
                     end
@@ -51,8 +51,8 @@ Module Type CanonicalArrayIntf (N : VerifiedNaturalInterface) <: ArrayInterface 
   Axiom concat_make : forall A (m n:nat) (x:A),
       concat (make m x) (make n x) = make (m + n) x.
   Axiom make_concat : forall A (l l':list A) (n:nat) (x:A),
-      concat l l' = make n x -> exists m m', l = make m x /\ l' = make m' x /\ m + m' = n. 
-  Axiom len_concat : forall A (l l' : list A), 
+      concat l l' = make n x -> exists m m', l = make m x /\ l' = make m' x /\ m + m' = n.
+  Axiom len_concat : forall A (l l' : list A),
       len (concat l l') = N.add (len l) (len l').
   Axiom get_concat : forall A (l r : list A) (n:N.N), get (concat l r) n =
       match N.comp n (len l) with
@@ -68,7 +68,7 @@ Module Type CanonicalArrayIntf (N : VerifiedNaturalInterface) <: ArrayInterface 
       end.
 End CanonicalArrayIntf.
 
-Module CanonicalArrayImpl (N : VerifiedNaturalInterface) : CanonicalArrayIntf N 
+Module CanonicalArrayImpl (N : VerifiedNaturalInterface) : CanonicalArrayIntf N
     with Definition M := list.
   Definition M := list.
 
@@ -87,9 +87,9 @@ Module CanonicalArrayImpl (N : VerifiedNaturalInterface) : CanonicalArrayIntf N
   Fixpoint get A (ls : list A) (index : N.N) : option A :=
     match ls with
     | [] => None
-    | h::t => 
+    | h::t =>
         match N.comp index N.zero with
-        | Lt 
+        | Lt
         | Eq => Some h
         | Gt => get t (N.pred index)
         end
@@ -116,7 +116,7 @@ Module CanonicalArrayImpl (N : VerifiedNaturalInterface) : CanonicalArrayIntf N
     intros; destruct n; auto.
   Defined.
 
-  Lemma len_def : forall A (l:list A), 
+  Lemma len_def : forall A (l:list A),
       len l = match l with
               | [] => N.zero
               | _::t => N.succ (len t)
@@ -127,9 +127,9 @@ Module CanonicalArrayImpl (N : VerifiedNaturalInterface) : CanonicalArrayIntf N
   Lemma get_def : forall A (l:list A) (n:N.N),
       get l n = match l with
                 | [] => None
-                | h::t => 
+                | h::t =>
                     match N.comp n N.zero with
-                    | Lt 
+                    | Lt
                     | Eq => Some h
                     | Gt => get t (N.pred n)
                     end
@@ -177,9 +177,9 @@ Module CanonicalArrayImpl (N : VerifiedNaturalInterface) : CanonicalArrayIntf N
       rewrite IHm.
       reflexivity.
   Defined.
- 
+
   Lemma make_concat : forall A (l l':list A) (n:nat) (x:A),
-      concat l l' = make n x -> 
+      concat l l' = make n x ->
         exists m m', l = make m x /\ l' = make m' x /\ m + m' = n.
     intros A l l'.
     induction l;
@@ -202,12 +202,12 @@ Module CanonicalArrayImpl (N : VerifiedNaturalInterface) : CanonicalArrayIntf N
         assert (concat l l' = make n x) as H. congruence.
         destruct (IHl n x H) as [m H'].
         destruct H' as [m' H''].
-        refine (ex_intro _ (S m) _).  
+        refine (ex_intro _ (S m) _).
         refine (ex_intro _ m' _).
         crush.
   Defined.
 
-  Lemma len_concat : forall A (l l' : list A), 
+  Lemma len_concat : forall A (l l' : list A),
       len (concat l l') = N.add (len l) (len l').
     intros.
     induction l.
@@ -276,7 +276,7 @@ Module CanonicalArrayImpl (N : VerifiedNaturalInterface) : CanonicalArrayIntf N
         intros n x; simpl.
       (* [] *)
       remember (N.comp n N.zero) as cmp.
-      destruct cmp; 
+      destruct cmp;
           symmetry in Heqcmp.
         (* Eq *)
         rewrite N.sub_zero; reflexivity.
@@ -308,7 +308,7 @@ Module CanonicalArrayImpl (N : VerifiedNaturalInterface) : CanonicalArrayIntf N
         simpl.
         destruct (N.comp n' (len l)); auto.
   Defined.
- 
+
 End CanonicalArrayImpl.
 
 

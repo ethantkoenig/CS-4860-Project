@@ -58,7 +58,7 @@ Module VerifiedCommutingArrayInterface (N:VerifiedNaturalInterface)
     rewrite A.concat_commutes.
     rewrite A.concat_commutes.
     rewrite A.concat_commutes.
-    rewrite A.concat_commutes.    
+    rewrite A.concat_commutes.
     rewrite A.Canon.concat_def.
     rewrite A.Canon.concat_def.
     rewrite A.Canon.concat_def.
