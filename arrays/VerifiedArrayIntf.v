@@ -5,7 +5,7 @@ Require Import ArrayIntf CanonicalArrImpl CommutingArrayIntf.
 Set Implicit Arguments.
 
 Module Type VerifiedArrayInterface (N:VerifiedNaturalInterface)
-    <: ArrayInterface N.
+    <: CommutingArrayInterface N.
   Parameter M : Type -> Type.
 
   Parameter make : forall A : Type, nat -> A -> M A.

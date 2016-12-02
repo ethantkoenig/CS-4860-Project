@@ -1,7 +1,7 @@
 Require Import Arith.
 Require Import NatIntf CanonicalNatImpl CommutingNatIntf.
 
-Module Type VerifiedNaturalInterface <: NaturalInterface.
+Module Type VerifiedNaturalInterface <: CommutingNaturalInterface.
   Parameter N : Type.
 
   Parameter zero : N.
@@ -12,6 +12,7 @@ Module Type VerifiedNaturalInterface <: NaturalInterface.
   Parameter comp : N -> N -> comparison.
   Parameter inject : N -> nat.
 
+  Axiom injective : forall n n' : N, inject n = inject n' -> n = n'.
   Axiom zero_commutes : inject zero = CanonicalNaturalImpl.zero.
   Axiom succ_commutes : forall n : N,
     inject (succ n) = CanonicalNaturalImpl.succ (inject n).
@@ -50,7 +51,7 @@ Module VerifiedCommutingNaturalImpl (C : CommutingNaturalInterface) : VerifiedNa
   Definition sub := C.sub.
   Definition comp := C.comp.
   Definition inject := C.inject.
-
+  Definition injective := C.injective.
   Definition zero_commutes := C.zero_commutes.
   Definition succ_commutes := C.succ_commutes.
   Definition pred_commutes := C.pred_commutes.
