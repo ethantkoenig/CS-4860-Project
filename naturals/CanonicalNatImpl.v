@@ -54,4 +54,3 @@ Lemma comp_gt : forall n n', CanonicalNaturalImpl.comp n n' = Gt <-> n > n'.
       rewrite (IHn n').
       crush.
 Defined.
-

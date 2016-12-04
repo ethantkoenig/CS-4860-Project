@@ -10,20 +10,19 @@ Module Type CommutingNaturalInterface <: NaturalInterface.
   Parameter sub : N -> N -> N.
   Parameter comp : N -> N -> comparison.
 
-  Parameter inject : N -> CanonicalNaturalImpl.N.
+  Parameter convert : N -> CanonicalNaturalImpl.N.
 
-  Axiom injective : forall n n' : N, inject n = inject n' -> n = n'.
+  Axiom convert_injective : forall n n' : N, convert n = convert n' -> n = n'.
 
-  Axiom zero_commutes : inject zero = CanonicalNaturalImpl.zero.
+  Axiom zero_commutes : convert zero = CanonicalNaturalImpl.zero.
   Axiom succ_commutes : forall n : N,
-    inject (succ n) = CanonicalNaturalImpl.succ (inject n).
+    convert (succ n) = CanonicalNaturalImpl.succ (convert n).
   Axiom pred_commutes : forall n : N,
-    inject (pred n) = CanonicalNaturalImpl.pred (inject n).
+    convert (pred n) = CanonicalNaturalImpl.pred (convert n).
   Axiom add_commutes : forall n n' : N,
-    inject (add n n') = CanonicalNaturalImpl.add (inject n) (inject n').
+    convert (add n n') = CanonicalNaturalImpl.add (convert n) (convert n').
   Axiom sub_commutes : forall n n' : N,
-    inject (sub n n') = CanonicalNaturalImpl.sub (inject n) (inject n').
+    convert (sub n n') = CanonicalNaturalImpl.sub (convert n) (convert n').
   Axiom comp_commutes : forall n n' : N,
-    comp n n' = CanonicalNaturalImpl.comp (inject n) (inject n').
+    comp n n' = CanonicalNaturalImpl.comp (convert n) (convert n').
 End CommutingNaturalInterface.
-

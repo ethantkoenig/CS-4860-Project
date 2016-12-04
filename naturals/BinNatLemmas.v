@@ -1,3 +1,5 @@
+(* Various lemmas about the BinNat module *)
+
 Require Import NatIntf CanonicalNatImpl.
 Require Import Cpdt.CpdtTactics.
 Require Import Arith BinNums BinNatDef.

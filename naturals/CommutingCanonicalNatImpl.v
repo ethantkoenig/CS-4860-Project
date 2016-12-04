@@ -9,37 +9,37 @@ Module CommutingCanonicalNaturalImpl <: CommutingNaturalInterface.
   Definition sub := CanonicalNaturalImpl.sub.
   Definition comp := CanonicalNaturalImpl.comp.
 
-  Definition inject (n:N) := n.
-  Lemma injective : forall n n' : N, inject n = inject n' -> n = n'.
+  Definition convert (n:N) := n.
+  Lemma convert_injective : forall n n' : N, convert n = convert n' -> n = n'.
     auto.
   Defined.
 
-  Lemma zero_commutes : inject zero = CanonicalNaturalImpl.zero.
+  Lemma zero_commutes : convert zero = CanonicalNaturalImpl.zero.
     auto.
   Defined.
 
   Lemma succ_commutes : forall n : N,
-      inject (succ n) = CanonicalNaturalImpl.succ (inject n).
+      convert (succ n) = CanonicalNaturalImpl.succ (convert n).
     auto.
   Defined.
 
   Lemma pred_commutes : forall n : N,
-      inject (pred n) = CanonicalNaturalImpl.pred (inject n).
+      convert (pred n) = CanonicalNaturalImpl.pred (convert n).
     auto.
   Defined.
 
   Lemma add_commutes : forall n n' : N,
-      inject (add n n') = CanonicalNaturalImpl.add (inject n) (inject n').
+      convert (add n n') = CanonicalNaturalImpl.add (convert n) (convert n').
     auto.
   Defined.
 
   Lemma sub_commutes : forall n n' : N,
-      inject (sub n n') = CanonicalNaturalImpl.sub (inject n) (inject n').
+      convert (sub n n') = CanonicalNaturalImpl.sub (convert n) (convert n').
     auto.
   Defined.
 
   Lemma comp_commutes : forall n n' : N,
-      comp n n' = CanonicalNaturalImpl.comp (inject n) (inject n').
+      comp n n' = CanonicalNaturalImpl.comp (convert n) (convert n').
     auto.
   Defined.
 End CommutingCanonicalNaturalImpl.

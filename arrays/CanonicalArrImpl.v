@@ -47,7 +47,7 @@ Module Type CanonicalArrayIntf (N : VerifiedNaturalInterface) <: ArrayInterface 
   Axiom concat_def : forall A (l l':list A), concat l l' = l ++ l'.
 
   Axiom len_make : forall A (n:nat) (x:A),
-      N.inject (len (make n x)) = n.
+      N.convert (len (make n x)) = n.
   Axiom concat_make : forall A (m n:nat) (x:A),
       concat (make m x) (make n x) = make (m + n) x.
   Axiom make_concat : forall A (l l':list A) (n:nat) (x:A),
@@ -155,7 +155,7 @@ Module CanonicalArrayImpl (N : VerifiedNaturalInterface) : CanonicalArrayIntf N
   Defined.
 
   Lemma len_make : forall A (n:nat) (x:A),
-      N.inject (len (make n x)) = n.
+      N.convert (len (make n x)) = n.
     intros A n x.
     induction n;
         simpl.

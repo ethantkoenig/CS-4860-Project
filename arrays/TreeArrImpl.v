@@ -38,23 +38,23 @@ Module TreeArrayImpl (Natl : VerifiedNaturalInterface) : CommutingArrayInterface
         Verified (T.concat t1' t2') (T.concat_wf _ _ H1 H2)
     end.
 
-  Fixpoint inject' A (t:T.tree A ) : list A :=
+  Fixpoint convert' A (t:T.tree A ) : list A :=
     match t with
     | T.Empty => []
     | T.Leaf x => [x]
-    | T.Node _ _ l r => Canon.concat (inject' l) (inject' r)
+    | T.Node _ _ l r => Canon.concat (convert' l) (convert' r)
     end.
 
-  Definition inject A (t:tree A) : list A :=
+  Definition convert A (t:tree A) : list A :=
     match t with
-    | Verified t' _ => inject' t'
+    | Verified t' _ => convert' t'
     end.
 
   (** Commutativity lemmas **)
 
   Lemma Tmake_add : forall A (t:T.tree A) (n:nat) (x:A),
-      inject' t = Canon.make n x ->
-        inject' (T.add x t) = Canon.make (S n) x.
+      convert' t = Canon.make n x ->
+        convert' (T.add x t) = Canon.make (S n) x.
     intros A t.
     induction t as [| | nl nr l IHl r IHr];
         intros n x; simpl; intros Heq.
@@ -78,7 +78,7 @@ Module TreeArrayImpl (Natl : VerifiedNaturalInterface) : CommutingArrayInterface
   Defined.
 
   Lemma Tmake_commutes : forall A (n:nat) (x:A),
-      inject' (T.make n x) = Canon.make n x.
+      convert' (T.make n x) = Canon.make n x.
     intros A n x.
     induction n;
         rewrite Canon.make_def; auto.
@@ -89,12 +89,12 @@ Module TreeArrayImpl (Natl : VerifiedNaturalInterface) : CommutingArrayInterface
   Defined.
 
   Lemma make_commutes : forall A (n:nat) (x:A),
-      inject (make n x) = Canon.make n x.
+      convert (make n x) = Canon.make n x.
     intros; simpl; apply Tmake_commutes.
   Defined.
 
   Lemma Tlen_commutes : forall A (t:T.tree A),
-      T.well_formed t -> T.len t = Canon.len (inject' t).
+      T.well_formed t -> T.len t = Canon.len (convert' t).
     intros A t.
     induction t as [|a| nl nr l IHl r IHr];
         simpl; intros Hwf.
@@ -112,14 +112,14 @@ Module TreeArrayImpl (Natl : VerifiedNaturalInterface) : CommutingArrayInterface
       reflexivity.
   Defined.
 
-  Lemma len_commutes : forall A (t:tree A), len t = Canon.len (inject t).
+  Lemma len_commutes : forall A (t:tree A), len t = Canon.len (convert t).
     intros.
     destruct t as [t' Hwf].
     simpl; apply (Tlen_commutes _ Hwf).
   Defined.
 
   Lemma Tget_commutes : forall A (t:T.tree A) n,
-      T.well_formed t -> T.get t n = Canon.get (inject' t) n.
+      T.well_formed t -> T.get t n = Canon.get (convert' t) n.
     intros A t.
     induction t as [| | nl nr l IHl r IHr];
         intros n; simpl; intros Hwf.
@@ -140,14 +140,14 @@ Module TreeArrayImpl (Natl : VerifiedNaturalInterface) : CommutingArrayInterface
   Defined.
 
   Lemma get_commutes : forall A (t:tree A) n,
-      get t n = Canon.get (inject t) n.
+      get t n = Canon.get (convert t) n.
     intros A t n.
     destruct t as [t' Hwf]; simpl.
     apply (Tget_commutes _ n Hwf).
   Defined.
 
   Lemma Tset_commutes : forall A (t:T.tree A) n x,
-      T.well_formed t -> inject' (T.set t n x) = Canon.set (inject' t) n x.
+      T.well_formed t -> convert' (T.set t n x) = Canon.set (convert' t) n x.
     intros A t.
     induction t as [| | nl nr l IHl r IHr];
         intros n x Hwf; simpl.
@@ -170,14 +170,14 @@ Module TreeArrayImpl (Natl : VerifiedNaturalInterface) : CommutingArrayInterface
   Defined.
 
   Lemma set_commutes : forall A (t:tree A) n x,
-      inject (set t n x) = Canon.set (inject t) n x.
+      convert (set t n x) = Canon.set (convert t) n x.
     intros.
     destruct t as [t' Hwf]; simpl.
     apply (Tset_commutes _ n x Hwf).
   Defined.
 
   Lemma Tconcat_commutes : forall A (t t':T.tree A),
-      inject' (T.concat t t') = Canon.concat (inject' t) (inject' t').
+      convert' (T.concat t t') = Canon.concat (convert' t) (convert' t').
     intros A t t'.
     destruct t as [|a|nl nr l r];
         rewrite Canon.concat_def; auto; simpl.
@@ -198,7 +198,7 @@ Module TreeArrayImpl (Natl : VerifiedNaturalInterface) : CommutingArrayInterface
   Defined.
 
   Lemma concat_commutes : forall A (t t':tree A),
-      inject (concat t t') = Canon.concat (inject t) (inject t').
+      convert (concat t t') = Canon.concat (convert t) (convert t').
     intros A t1 t2.
     destruct t1 as [t1 H1]; destruct t2 as [t2 H2].
     simpl.

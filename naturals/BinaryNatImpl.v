@@ -14,11 +14,10 @@ Module BinaryNaturalImpl <: CommutingNaturalInterface.
   Definition sub : N -> N -> N := N.sub.
   Definition comp : N -> N -> comparison := N.compare.
 
-  Definition inject : N -> nat := N.to_nat.
+  Definition convert : N -> nat := N.to_nat.
+  Definition convert_injective := BinNatLemmas.to_nat_inj.
 
-  Definition injective := BinNatLemmas.to_nat_inj.
-
-  Lemma zero_commutes : inject zero = 0.
+  Lemma zero_commutes : convert zero = 0.
     auto.
   Defined.
 
