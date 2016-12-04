@@ -6,6 +6,7 @@
 naturals/NatIntf.v
 naturals/CanonicalNatImpl.v
 naturals/CommutingNatIntf.v
+naturals/CommutingCanonicalNatImpl.v
 naturals/VerifiedNatIntf.v
 naturals/BinNatLemmas.v
 naturals/BinaryNatImpl.v
@@ -13,6 +14,7 @@ naturals/BinaryNatImpl.v
 arrays/ArrayIntf.v
 arrays/CanonicalArrImpl.v
 arrays/CommutingArrayIntf.v
+arrays/CommutingCanonicalArrImpl.v
 arrays/VerifiedArrayIntf.v
 arrays/Trees.v
 arrays/TreeArrImpl.v

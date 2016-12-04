@@ -87,12 +87,14 @@ endif
 VFILES:=arrays/TreeArrImpl.v\
   arrays/Trees.v\
   arrays/VerifiedArrayIntf.v\
+  arrays/CommutingCanonicalArrImpl.v\
   arrays/CommutingArrayIntf.v\
   arrays/CanonicalArrImpl.v\
   arrays/ArrayIntf.v\
   naturals/BinaryNatImpl.v\
   naturals/BinNatLemmas.v\
   naturals/VerifiedNatIntf.v\
+  naturals/CommutingCanonicalNatImpl.v\
   naturals/CommutingNatIntf.v\
   naturals/CanonicalNatImpl.v\
   naturals/NatIntf.v
