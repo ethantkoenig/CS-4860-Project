@@ -5,7 +5,7 @@ Set Implicit Arguments.
 Import ListNotations.
 
 (* An implementation of CommutingArrayInterface using binary trees. *) 
-Module TreeArrayImpl (Natl : VerifiedNaturalInterface)
+Module TreeArrayImpl (Natl : VerifiedNatInterface)
     : CommutingArrayInterface Natl.
 
   Module T := TreeDefns Natl.

@@ -9,7 +9,7 @@ Import ListNotations.
  * of CanonicalArrayImpl's value cannot be directly exposes, as a result of it
  * being a functor. Instead, we introduce a module type that exposes the def'ns,
  * as well as other useful properties. *) 
-Module Type CanonicalArrayIntf (N : VerifiedNaturalInterface)
+Module Type CanonicalArrayIntf (N : VerifiedNatInterface)
     <: ArrayInterface N with Definition M := list.
   Definition M := list.
 
@@ -74,7 +74,7 @@ Module Type CanonicalArrayIntf (N : VerifiedNaturalInterface)
 End CanonicalArrayIntf.
 
 (* A canonical, nil-cons implementation of ArrayInterface *)
-Module CanonicalArrayImpl (N : VerifiedNaturalInterface) : CanonicalArrayIntf N
+Module CanonicalArrayImpl (N : VerifiedNatInterface) : CanonicalArrayIntf N
     with Definition M := list.
   Definition M := list.
 

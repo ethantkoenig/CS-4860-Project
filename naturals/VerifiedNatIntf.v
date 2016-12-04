@@ -4,7 +4,7 @@ Require Import NatIntf CanonicalNatImpl CommutingNatIntf.
 (* An extension of CommutingNaturalInterface that includes various correctness
  * properties that correct implementations of the natural numbers should
  * satisfy. *)
-Module Type VerifiedNaturalInterface <: CommutingNaturalInterface.
+Module Type VerifiedNatInterface <: CommutingNatInterface.
   Parameter N : Type.
 
   Parameter zero : N.
@@ -16,17 +16,17 @@ Module Type VerifiedNaturalInterface <: CommutingNaturalInterface.
   Parameter convert : N -> nat.
 
   Axiom convert_injective : forall n n' : N, convert n = convert n' -> n = n'.
-  Axiom zero_commutes : convert zero = CanonicalNaturalImpl.zero.
+  Axiom zero_commutes : convert zero = CanonicalNat.zero.
   Axiom succ_commutes : forall n : N,
-    convert (succ n) = CanonicalNaturalImpl.succ (convert n).
+    convert (succ n) = CanonicalNat.succ (convert n).
   Axiom pred_commutes : forall n : N,
-    convert (pred n) = CanonicalNaturalImpl.pred (convert n).
+    convert (pred n) = CanonicalNat.pred (convert n).
   Axiom add_commutes : forall n n' : N,
-    convert (add n n') = CanonicalNaturalImpl.add (convert n) (convert n').
+    convert (add n n') = CanonicalNat.add (convert n) (convert n').
   Axiom sub_commutes : forall n n' : N,
-    convert (sub n n') = CanonicalNaturalImpl.sub (convert n) (convert n').
+    convert (sub n n') = CanonicalNat.sub (convert n) (convert n').
   Axiom comp_commutes : forall n n' : N,
-    comp n n' = CanonicalNaturalImpl.comp (convert n) (convert n').
+    comp n n' = CanonicalNat.comp (convert n) (convert n').
 
   Axiom pos_succ : forall (n:N), comp n zero = Gt -> exists n', n = succ n'.
   Axiom pred_succ : forall (n:N), pred (succ n) = n.
@@ -43,12 +43,12 @@ Module Type VerifiedNaturalInterface <: CommutingNaturalInterface.
   Axiom comp_succ : forall (m n:N), comp (succ m) (succ n) = comp m n.
   Axiom comp_eq : forall (m n:N), comp m n = Eq <-> m = n.
   Axiom comp_zero_succ : forall (n:N), comp zero (succ n) = Lt.
-End VerifiedNaturalInterface.
+End VerifiedNatInterface.
 
-(* A functor which produces an implementation of VerifedNaturalInterface from an
- * implementation of CommutingNaturalInterface. *)
-Module VerifiedCommutingNaturalImpl (C : CommutingNaturalInterface)
-    : VerifiedNaturalInterface.
+(* A functor which produces an implementation of VerifedNatInterface from an
+ * implementation of CommutingNatInterface. *)
+Module VerifiedCommutingNat (C : CommutingNatInterface)
+    : VerifiedNatInterface.
   Definition N := C.N.
   Definition zero := C.zero.
   Definition succ := C.succ.
@@ -196,4 +196,4 @@ Module VerifiedCommutingNaturalImpl (C : CommutingNaturalInterface)
     simpl.
     reflexivity.
   Defined.
-End VerifiedCommutingNaturalImpl.
+End VerifiedCommutingNat.

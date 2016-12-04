@@ -7,7 +7,7 @@ Set Implicit Arguments.
 (* An extension of CommutingArrayInterface that include various correctness
  * properties that correct implementations of the array interface should
  * satisfy. *)
-Module Type VerifiedArrayInterface (N:VerifiedNaturalInterface)
+Module Type VerifiedArrayInterface (N:VerifiedNatInterface)
     <: CommutingArrayInterface N.
   Parameter M : Type -> Type.
 
@@ -38,7 +38,7 @@ End VerifiedArrayInterface.
 
 (* A functor which produces an implementation of VerifiedArrayInterface from
  * an implementation of CommutingArrayInterface. *) 
-Module VerifiedCommutingArrayInterface (N:VerifiedNaturalInterface)
+Module VerifiedCommutingArrayInterface (N:VerifiedNatInterface)
                                        (A:CommutingArrayInterface N)
     : VerifiedArrayInterface N.
   Definition M := A.M.

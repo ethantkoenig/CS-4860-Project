@@ -4,9 +4,9 @@ Require Import Cpdt.CpdtTactics.
 
 Local Open Scope nat_scope.
 
-(* A canonical implementation of NaturalInterface using a unary representation
+(* A canonical implementation of NatInterface using a unary representation
  * of the natural numbers. *)
-Module CanonicalNaturalImpl <: NaturalInterface.
+Module CanonicalNat <: NatInterface.
   Definition N := nat.
   Definition zero := 0.
   Definition succ := S.
@@ -21,10 +21,10 @@ Module CanonicalNaturalImpl <: NaturalInterface.
     | S _, 0 => Gt
     | S m, S m' => comp m m'
     end.
-End CanonicalNaturalImpl.
+End CanonicalNat.
 
 
-Lemma comp_eq : forall n n', CanonicalNaturalImpl.comp n n' = Eq <-> n = n'.
+Lemma comp_eq : forall n n', CanonicalNat.comp n n' = Eq <-> n = n'.
   intros n.
   induction n.
     intros n'; destruct n'; crush.
@@ -35,7 +35,7 @@ Lemma comp_eq : forall n n', CanonicalNaturalImpl.comp n n' = Eq <-> n = n'.
       crush.
 Defined.
 
-Lemma comp_lt : forall n n', CanonicalNaturalImpl.comp n n' = Lt <-> n < n'.
+Lemma comp_lt : forall n n', CanonicalNat.comp n n' = Lt <-> n < n'.
   intros n.
   induction n.
     intros n'; destruct n'; crush.
@@ -46,7 +46,7 @@ Lemma comp_lt : forall n n', CanonicalNaturalImpl.comp n n' = Lt <-> n < n'.
       crush.
 Defined.
 
-Lemma comp_gt : forall n n', CanonicalNaturalImpl.comp n n' = Gt <-> n > n'.
+Lemma comp_gt : forall n n', CanonicalNat.comp n n' = Gt <-> n > n'.
   intros n.
   induction n.
     intros n'; destruct n'; crush.

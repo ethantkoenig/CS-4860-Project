@@ -7,7 +7,7 @@ Require Import Cpdt.CpdtTactics.
 Import ListNotations.
 Set Implicit Arguments.
 
-Module TreeDefns (Natl : VerifiedNaturalInterface).
+Module TreeDefns (Natl : VerifiedNatInterface).
 
   Definition one := Natl.succ Natl.zero.
 

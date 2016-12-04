@@ -245,7 +245,7 @@ Lemma nonzero_succ : forall n, n > 0 -> exists n', n = S n'.
 Defined.
 
 Lemma comp_commutes : forall b b',
-        N.compare b b' = CanonicalNaturalImpl.comp (N.to_nat b) (N.to_nat b').
+        N.compare b b' = CanonicalNat.comp (N.to_nat b) (N.to_nat b').
   destruct b.
     (* Zero *)
     destruct b'; auto.

@@ -2,8 +2,8 @@ Require Import VerifiedNatIntf.
 
 (* An interface for arrays indexed by natural numbers. The indices are not
  * tied to any specific implementation of the natural numbers, but can instead
- * be any implementation of VerifiedNaturalInterface *)
-Module Type ArrayInterface (N : VerifiedNaturalInterface).
+ * be any implementation of VerifiedNatInterface *)
+Module Type ArrayInterface (N : VerifiedNatInterface).
 
   Parameter M : Type -> Type.
 

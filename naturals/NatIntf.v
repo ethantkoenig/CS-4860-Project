@@ -1,5 +1,5 @@
 (* An interface of natural numbers *)
-Module Type NaturalInterface.
+Module Type NatInterface.
   Parameter N : Type.
 
   Parameter zero : N.
@@ -8,4 +8,4 @@ Module Type NaturalInterface.
   Parameter add : N -> N -> N.
   Parameter sub : N -> N -> N.
   Parameter comp : N -> N -> comparison.
-End NaturalInterface.
+End NatInterface.

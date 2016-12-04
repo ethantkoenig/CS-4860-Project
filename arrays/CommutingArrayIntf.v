@@ -4,7 +4,7 @@ Set Implicit Arguments.
 
 (* An extension of ArrayInterface for implementations that commute with
  * CanonicalArrayImpl. *)
-Module Type CommutingArrayInterface (N : VerifiedNaturalInterface)
+Module Type CommutingArrayInterface (N : VerifiedNatInterface)
     <: ArrayInterface N.
   Module Canon := CanonicalArrayImpl N.
 

@@ -6,7 +6,7 @@ Set Implicit Arguments.
 (* An implementation of CommutingArrayInterface using the definitions in
  * CanonicalArrayImpl. Of course, all of the commutativity properties hold
  * trivially. *)
-Module CommutingCanonicalArrayImpl (N : VerifiedNaturalInterface)
+Module CommutingCanonicalArrayImpl (N : VerifiedNatInterface)
     : CommutingArrayInterface N.
   Module Canon := CanonicalArrayImpl N.
   Definition M := Canon.M.
