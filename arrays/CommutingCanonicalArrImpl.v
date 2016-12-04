@@ -3,6 +3,9 @@ Require Import CanonicalArrImpl CommutingArrayIntf.
 
 Set Implicit Arguments.
 
+(* An implementation of CommutingArrayInterface using the definitions in
+ * CanonicalArrayImpl. Of course, all of the commutativity properties hold
+ * trivially. *)
 Module CommutingCanonicalArrayImpl (N : VerifiedNaturalInterface)
     : CommutingArrayInterface N.
   Module Canon := CanonicalArrayImpl N.

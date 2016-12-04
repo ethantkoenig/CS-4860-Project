@@ -1,5 +1,7 @@
 Require Import NatIntf CanonicalNatImpl.
 
+(* An extension of NaturalInterface for implementations that commute with
+ * CanonicalNatImpl *)
 Module Type CommutingNaturalInterface <: NaturalInterface.
   Parameter N : Type.
 
@@ -12,6 +14,8 @@ Module Type CommutingNaturalInterface <: NaturalInterface.
 
   Parameter convert : N -> CanonicalNaturalImpl.N.
 
+  (* We require convert to be injective, because it makes a lot of subsequent
+   * proofs a lot simpler. This requirement is not necessary, however. *)
   Axiom convert_injective : forall n n' : N, convert n = convert n' -> n = n'.
 
   Axiom zero_commutes : convert zero = CanonicalNaturalImpl.zero.

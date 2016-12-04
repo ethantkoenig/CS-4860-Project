@@ -4,6 +4,9 @@ Require Import ArrayIntf CanonicalArrImpl CommutingArrayIntf.
 
 Set Implicit Arguments.
 
+(* An extension of CommutingArrayInterface that include various correctness
+ * properties that correct implementations of the array interface should
+ * satisfy. *)
 Module Type VerifiedArrayInterface (N:VerifiedNaturalInterface)
     <: CommutingArrayInterface N.
   Parameter M : Type -> Type.
@@ -33,6 +36,8 @@ Module Type VerifiedArrayInterface (N:VerifiedNaturalInterface)
     convert (concat (concat l1 l2) l3) = convert (concat l1 (concat l2 l3)).
 End VerifiedArrayInterface.
 
+(* A functor which produces an implementation of VerifiedArrayInterface from
+ * an implementation of CommutingArrayInterface. *) 
 Module VerifiedCommutingArrayInterface (N:VerifiedNaturalInterface)
                                        (A:CommutingArrayInterface N)
     : VerifiedArrayInterface N.

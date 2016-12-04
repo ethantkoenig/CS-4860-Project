@@ -1,5 +1,8 @@
 Require Import CanonicalNatImpl CommutingNatIntf.
 
+(* An implementation of CommutingNaturalInterface using the definitions in
+ * CanonicalNaturalImpl. Of course, all of the commutativity properties hold
+ * trivially *)
 Module CommutingCanonicalNaturalImpl <: CommutingNaturalInterface.
   Definition N := CanonicalNaturalImpl.N.
   Definition zero := CanonicalNaturalImpl.zero.

@@ -2,8 +2,10 @@ Require Import VerifiedNatIntf ArrayIntf CanonicalArrImpl.
 
 Set Implicit Arguments.
 
-Module Type CommutingArrayInterface (N : VerifiedNaturalInterface) <: ArrayInterface N.
-
+(* An extension of ArrayInterface for implementations that commute with
+ * CanonicalArrayImpl. *)
+Module Type CommutingArrayInterface (N : VerifiedNaturalInterface)
+    <: ArrayInterface N.
   Module Canon := CanonicalArrayImpl N.
 
   Parameter M : Type -> Type.

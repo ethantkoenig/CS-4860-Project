@@ -4,6 +4,8 @@ Require Import BinNatLemmas NatIntf CanonicalNatImpl CommutingNatIntf.
 
 Import ListNotations.
 
+(* An implementation of CommutingNaturalInterface that uses the binary
+ * representation of natural numbers provided by the BinNums module. *)
 Module BinaryNaturalImpl <: CommutingNaturalInterface.
   Definition N := BinNums.N.
 

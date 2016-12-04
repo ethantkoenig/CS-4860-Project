@@ -1,4 +1,4 @@
-(* Various lemmas about the BinNat module *)
+(* Various lemmas about the BinNums and BinPos modules *)
 
 Require Import NatIntf CanonicalNatImpl.
 Require Import Cpdt.CpdtTactics.

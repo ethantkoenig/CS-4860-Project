@@ -4,6 +4,8 @@ Require Import Cpdt.CpdtTactics.
 
 Local Open Scope nat_scope.
 
+(* A canonical implementation of NaturalInterface using a unary representation
+ * of the natural numbers. *)
 Module CanonicalNaturalImpl <: NaturalInterface.
   Definition N := nat.
   Definition zero := 0.

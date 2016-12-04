@@ -5,7 +5,12 @@ Require Import NatIntf ArrayIntf VerifiedNatIntf.
 Set Implicit Arguments.
 Import ListNotations.
 
-Module Type CanonicalArrayIntf (N : VerifiedNaturalInterface) <: ArrayInterface N with Definition M := list.
+(* A module type for CanonicalArrayImpl. This is necessary because the def'ns 
+ * of CanonicalArrayImpl's value cannot be directly exposes, as a result of it
+ * being a functor. Instead, we introduce a module type that exposes the def'ns,
+ * as well as other useful properties. *) 
+Module Type CanonicalArrayIntf (N : VerifiedNaturalInterface)
+    <: ArrayInterface N with Definition M := list.
   Definition M := list.
 
   Parameter make : forall A : Type, nat -> A -> M A.
@@ -68,6 +73,7 @@ Module Type CanonicalArrayIntf (N : VerifiedNaturalInterface) <: ArrayInterface 
       end.
 End CanonicalArrayIntf.
 
+(* A canonical, nil-cons implementation of ArrayInterface *)
 Module CanonicalArrayImpl (N : VerifiedNaturalInterface) : CanonicalArrayIntf N
     with Definition M := list.
   Definition M := list.

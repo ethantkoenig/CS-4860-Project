@@ -1,6 +1,9 @@
 Require Import Arith.
 Require Import NatIntf CanonicalNatImpl CommutingNatIntf.
 
+(* An extension of CommutingNaturalInterface that includes various correctness
+ * properties that correct implementations of the natural numbers should
+ * satisfy. *)
 Module Type VerifiedNaturalInterface <: CommutingNaturalInterface.
   Parameter N : Type.
 
@@ -42,7 +45,10 @@ Module Type VerifiedNaturalInterface <: CommutingNaturalInterface.
   Axiom comp_zero_succ : forall (n:N), comp zero (succ n) = Lt.
 End VerifiedNaturalInterface.
 
-Module VerifiedCommutingNaturalImpl (C : CommutingNaturalInterface) : VerifiedNaturalInterface.
+(* A functor which produces an implementation of VerifedNaturalInterface from an
+ * implementation of CommutingNaturalInterface. *)
+Module VerifiedCommutingNaturalImpl (C : CommutingNaturalInterface)
+    : VerifiedNaturalInterface.
   Definition N := C.N.
   Definition zero := C.zero.
   Definition succ := C.succ.

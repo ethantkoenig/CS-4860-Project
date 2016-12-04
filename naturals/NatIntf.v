@@ -1,4 +1,4 @@
-
+(* An interface of natural numbers *)
 Module Type NaturalInterface.
   Parameter N : Type.
 

@@ -1,3 +1,5 @@
+(* Various definitions and lemmas involving binary trees *)
+
 Require Import Arith List.
 Require Import VerifiedNatIntf ArrayIntf CanonicalArrImpl.
 Require Import Cpdt.CpdtTactics.
