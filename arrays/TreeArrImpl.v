@@ -4,7 +4,7 @@ Require Import VerifiedNatIntf CanonicalArrImpl CommutingArrayIntf Trees.
 Set Implicit Arguments.
 Import ListNotations.
 
-(* An implementation of CommutingArrayInterface using binary trees. *) 
+(* An implementation of CommutingArrayInterface using binary trees. *)
 Module TreeArrayImpl (Natl : VerifiedNatInterface)
     : CommutingArrayInterface Natl.
 

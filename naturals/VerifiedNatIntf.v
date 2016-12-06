@@ -82,16 +82,16 @@ Module VerifiedCommutingNat (C : CommutingNatInterface)
     induction u;
         intros n Heqn; simpl; apply convert_injective.
       (* 0 *)
-      rewrite zero_commutes.      
+      rewrite zero_commutes.
       rewrite Heqn.
       auto.
-      (* S u *)      
+      (* S u *)
       rewrite succ_commutes.
       rewrite Heqn.
       assert (C.convert (C.pred n) = u) as Heqn'.
         rewrite pred_commutes.
         rewrite Heqn.
-        auto.   
+        auto.
       rewrite (IHu _ Heqn').
       rewrite pred_commutes.
       rewrite Heqn.

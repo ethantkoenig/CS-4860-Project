@@ -46,14 +46,14 @@ Module Type VerifiedArrayInterface (N:VerifiedNatInterface)
     len (set l n x) = len l.
 
   Axiom len_concat : forall A (l1 l2 : M A),
-    len (concat l1 l2) = N.add (len l1) (len l2).    
+    len (concat l1 l2) = N.add (len l1) (len l2).
 
   Axiom concat_assoc : forall A (l1 l2 l3 : M A),
     convert (concat (concat l1 l2) l3) = convert (concat l1 (concat l2 l3)).
 End VerifiedArrayInterface.
 
 (* A functor which produces an implementation of VerifiedArrayInterface from
- * an implementation of CommutingArrayInterface. *) 
+ * an implementation of CommutingArrayInterface. *)
 Module VerifiedCommutingArrayInterface (N:VerifiedNatInterface)
                                        (C:CommutingArrayInterface N)
     : VerifiedArrayInterface N.

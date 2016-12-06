@@ -5,10 +5,10 @@ Require Import NatIntf ArrayIntf VerifiedNatIntf.
 Set Implicit Arguments.
 Import ListNotations.
 
-(* A module type for CanonicalArrayImpl. This is necessary because the def'ns 
+(* A module type for CanonicalArrayImpl. This is necessary because the def'ns
  * of CanonicalArrayImpl's value cannot be directly exposes, as a result of it
  * being a functor. Instead, we introduce a module type that exposes the def'ns,
- * as well as other useful properties. *) 
+ * as well as other useful properties. *)
 Module Type CanonicalArrayIntf (N : VerifiedNatInterface)
     <: ArrayInterface N with Definition M := list.
   Definition M := list.
@@ -63,13 +63,13 @@ Module Type CanonicalArrayIntf (N : VerifiedNatInterface)
       end.
 
   Axiom len_set : forall A (l : list A) (n : N.N) x,
-      len (set l n x) = len l. 
+      len (set l n x) = len l.
 
   Axiom concat_make : forall A (m n:nat) (x:A),
       concat (make m x) (make n x) = make (m + n) x.
 
   Axiom make_concat : forall A (l l':list A) (n:nat) (x:A),
-      concat l l' = make n x -> 
+      concat l l' = make n x ->
           exists m m', l = make m x /\ l' = make m' x /\ m + m' = n.
 
   Axiom len_concat : forall A (l l' : list A),
