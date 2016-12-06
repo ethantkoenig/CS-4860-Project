@@ -1,6 +1,13 @@
 Require Import Arith.
 Require Import NatIntf CanonicalNatImpl CommutingNatIntf.
 
+(* Compose a function with itself `n` times *)
+Fixpoint iterate A (n:nat) (f:A -> A) (x:A) : A :=
+  match n with
+  | 0 => x
+  | S n' => f (iterate A n' f x)
+  end.
+
 (* An extension of CommutingNaturalInterface that includes various correctness
  * properties that correct implementations of the natural numbers should
  * satisfy. *)
@@ -27,6 +34,10 @@ Module Type VerifiedNatInterface <: CommutingNatInterface.
     convert (sub n n') = CanonicalNat.sub (convert n) (convert n').
   Axiom comp_commutes : forall n n' : N,
     comp n n' = CanonicalNat.comp (convert n) (convert n').
+
+  (* Correctness properties for nat implementations *)
+  Axiom unary_repr : forall (n:N),
+    iterate _ (convert n) succ zero = n.
 
   Axiom pos_succ : forall (n:N), comp n zero = Gt -> exists n', n = succ n'.
   Axiom pred_succ : forall (n:N), pred (succ n) = n.
@@ -64,6 +75,34 @@ Module VerifiedCommutingNat (C : CommutingNatInterface)
   Definition add_commutes := C.add_commutes.
   Definition sub_commutes := C.sub_commutes.
   Definition comp_commutes := C.comp_commutes.
+
+  Lemma unary_repr' : forall (u:nat) (n:N),
+      C.convert n = u -> iterate _ u C.succ C.zero = n.
+    intros u.
+    induction u;
+        intros n Heqn; simpl; apply convert_injective.
+      (* 0 *)
+      rewrite zero_commutes.      
+      rewrite Heqn.
+      auto.
+      (* S u *)      
+      rewrite succ_commutes.
+      rewrite Heqn.
+      assert (C.convert (C.pred n) = u) as Heqn'.
+        rewrite pred_commutes.
+        rewrite Heqn.
+        auto.   
+      rewrite (IHu _ Heqn').
+      rewrite pred_commutes.
+      rewrite Heqn.
+      auto.
+  Defined.
+
+  Lemma unary_repr : forall (n:N),
+      iterate _ (C.convert n) C.succ C.zero = n.
+    intros n.
+    apply (unary_repr' (C.convert n) n); trivial.
+  Defined.
 
   Lemma pos_succ : forall (n:N),
       comp n C.zero = Gt -> exists n', n = succ n'.

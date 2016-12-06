@@ -19,6 +19,7 @@ Module Type CanonicalArrayIntf (N : VerifiedNatInterface)
   Parameter set : forall A : Type, M A -> N.N -> A -> M A.
   Parameter concat : forall A : Type, M A -> M A -> M A.
 
+  (* Expose def'ns of CanonicalArrayImpl's provided values *)
   Axiom make_def : forall A (n:nat) (x:A),
       make n x = match n with
                  | O => []
@@ -51,26 +52,43 @@ Module Type CanonicalArrayIntf (N : VerifiedNatInterface)
                   end.
   Axiom concat_def : forall A (l l':list A), concat l l' = l ++ l'.
 
+  (* Various correctness properties that CanonicalArrayImpl satisfies *)
   Axiom len_make : forall A (n:nat) (x:A),
       N.convert (len (make n x)) = n.
+
+  Axiom get_set : forall A (l : list A) (n : N.N) (x : A),
+      match get (set l n x) n with
+      | None => True
+      | Some x' => x' = x
+      end.
+
+  Axiom len_set : forall A (l : list A) (n : N.N) x,
+      len (set l n x) = len l. 
+
   Axiom concat_make : forall A (m n:nat) (x:A),
       concat (make m x) (make n x) = make (m + n) x.
+
   Axiom make_concat : forall A (l l':list A) (n:nat) (x:A),
-      concat l l' = make n x -> exists m m', l = make m x /\ l' = make m' x /\ m + m' = n.
+      concat l l' = make n x -> 
+          exists m m', l = make m x /\ l' = make m' x /\ m + m' = n.
+
   Axiom len_concat : forall A (l l' : list A),
       len (concat l l') = N.add (len l) (len l').
+
   Axiom get_concat : forall A (l r : list A) (n:N.N), get (concat l r) n =
       match N.comp n (len l) with
       | Lt => get l n
       | Eq
       | Gt => get r (N.sub n (len l))
       end.
+
   Axiom set_concat : forall A (l l':list A) (n:N.N) (x:A), set (concat l l') n x =
       match N.comp n (len l) with
       | Lt => concat (set l n x) l'
       | Eq
       | Gt => concat l (set l' (N.sub n (len l)) x)
       end.
+
 End CanonicalArrayIntf.
 
 (* A canonical, nil-cons implementation of ArrayInterface *)
@@ -172,6 +190,36 @@ Module CanonicalArrayImpl (N : VerifiedNatInterface) : CanonicalArrayIntf N
       rewrite N.succ_commutes.
       rewrite IHn.
       auto.
+  Defined.
+
+  Lemma get_set : forall A (l : list A) n x,
+      match get (set l n x) n with
+      | None => True
+      | Some x' => x' = x
+      end.
+    intros A l.
+    induction l;
+        intros n x; simpl;
+        try trivial.
+      (* a :: l *)
+      simpl.
+      remember (N.comp n N.zero) as cmp.
+      destruct cmp;
+          symmetry in Heqcmp; simpl; rewrite Heqcmp;
+          try reflexivity.
+        (* Gt *)
+        exact (IHl (N.pred n) x).
+  Defined.
+
+  Lemma len_set : forall A (l : list A) n x,
+      len (set l n x) = len l.
+    intros A l.
+    induction l;
+        intros n x; simpl; try trivial.
+      (* a :: l *)
+      destruct (N.comp n N.zero); simpl; try auto.
+        (* Gt *)
+        rewrite (IHl (N.pred n) x); trivial.
   Defined.
 
   Lemma concat_make : forall A (m n:nat) (x:A),
@@ -316,5 +364,3 @@ Module CanonicalArrayImpl (N : VerifiedNatInterface) : CanonicalArrayIntf N
   Defined.
 
 End CanonicalArrayImpl.
-
-
